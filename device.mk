@@ -17,12 +17,8 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
-$(call inherit-product-if-exists, vendor/htc/hima-common/hima-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/htc/a51tuhl-common/a51tuhl-common-vendor.mk)
 
-# Recovery
-PRODUCT_PACKAGES += \
-    chargeled
+# Time Zone data for Recovery
 PRODUCT_COPY_FILES += \
-    device/htc/a51tuhl/recovery/kernel:kernel \
     bionic/libc/zoneinfo/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata
-
