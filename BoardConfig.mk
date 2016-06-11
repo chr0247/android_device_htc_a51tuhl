@@ -19,16 +19,15 @@
 # included in a build is to use PRODUCT_PACKAGES in a product
 # definition file).
 #
-
 BOARD_VENDOR := htc
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := qcom
+TARGET_BOOTLOADER_BOARD_NAME := msm8939
 TARGET_NO_BOOTLOADER := true
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8916
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno405
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno403
 
 # Architecture
 TARGET_ARCH := arm64
@@ -48,6 +47,7 @@ TARGET_2ND_CPU_VARIANT := generic
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x80078000
 BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01f88000 --tags_offset 0x01d88000 --dt device/htc/a51tuhl/recovery/dt.img
 
 # Partitions
@@ -66,17 +66,14 @@ BOARD_RECOVERY_SWIPE := true
 BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_USES_MMCUTILS := true
 TARGET_PREBUILT_KERNEL := device/htc/a51tuhl/recovery/kernel
-TARGET_RECOVERY_DEVICE_MODULES := chargeled
 
 # TWRP Build Flags
 TW_THEME := portrait_hdpi
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_INCLUDE_CRYPTO := true
 TW_NO_EXFAT_FUSE := true
-TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_SUPERSU := true
-TW_DEFAULT_LANGUAGE := zh_TW
-TW_EXTRA_LANGUAGES := true
+TARGET_RECOVERY_DEVICE_MODULES := chargeled
 
 # Vendor Init
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/

@@ -34,18 +34,6 @@
 #include "log.h"
 #include "util.h"
 
-void common_properties()
-{
-    property_set("rild.libargs", "-d /dev/smd0");
-    property_set("ro.ril.hsdpa.category", "24");
-    property_set("ro.ril.hsupa.category", "6");
-    property_set("ro.ril.hsxpa", "4");
-    property_set("ro.ril.enable.r8fd", "1");
-    property_set("ro.ril.disable.cpc", "1");
-    property_set("ro.ril.disable.fd.plmn.prefix", "23402,23410,23411,23420,23594,27202,27205");
-    property_set("ro.ril.enable.sdr", "1");
-}
-
 void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *board_type)
 {
     char platform[PROP_VALUE_MAX];
@@ -57,10 +45,18 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     if (!rc || strncmp(platform, ANDROID_TARGET, PROP_VALUE_MAX))
         return;
 
-	common_properties();
-	property_set("ro.build.product", "htc_a51tuhl");
-	property_set("ro.product.device", "htc_a51tuhl");
-	property_set("ro.product.model", "HTC Desire 820");
+    property_set("rild.libargs", "-d /dev/smd0");
+    property_set("ro.ril.hsdpa.category", "24");
+    property_set("ro.ril.hsupa.category", "6");
+    property_set("ro.ril.hsxpa", "4");
+    property_set("ro.ril.disable.fd.plmn.prefix", "23402,23410,23411,23420,23594,27202,27205");
+    property_set("ro.ril.enable.sdr", "1");
+    property_set("ro.ril.enable.r8fd", "1");
+    property_set("ro.ril.disable.cpc", "1");
+    property_set("ro.build.fingerprint", "htc/a51tuhl_htc_asia_tw/htc_a51tuhl:6.0.1/MMB29M/738193.3:user/release-keys");
+    property_set("ro.build.product", "htc_a51tuhl");
+    property_set("ro.product.device", "htc_a51tuhl");
+    property_set("ro.product.model", "HTC Desire 820");
 
     property_get("ro.product.device", device);
     ERROR("Found bootmid %s setting build properties for %s device\n", bootmid, device);

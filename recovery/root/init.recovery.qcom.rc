@@ -1,5 +1,4 @@
 on init
-    # exfat
     insmod /system/lib/modules/texfat.ko
 
 on fs
@@ -12,22 +11,20 @@ on fs
     write /sys/class/android_usb/android0/iProduct ${ro.product.model}
     write /sys/class/android_usb/android0/iSerial ${ro.serialno}
 
-on boot
-    start chargeled
-
-on property:ro.bootmode=offmode_charging
+on offmode_charging
     start detect_key
     start offmode_charging
-    stop recovery
 
-# Used to disable USB when switching states
+on boot
+	start choice_fn
+    start chargeled
+
 on property:sys.usb.config=none
     stop adbd
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/bDeviceClass 0
     setprop sys.usb.state ${sys.usb.config}
 
-# this is for M charge-only
 on property:sys.usb.config=charged
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 0bb4
@@ -37,7 +34,6 @@ on property:sys.usb.config=charged
     write /sys/devices/platform/android_usb/usb_function_switch 1048576
     setprop sys.usb.state ${sys.usb.config}
 
-# this is for M charge-only but USB debugging is on, we switch to adb
 on property:sys.usb.config=charged,adb
     stop adbd
     write /sys/class/android_usb/android0/enable 0
@@ -49,9 +45,6 @@ on property:sys.usb.config=charged,adb
     write /sys/devices/platform/android_usb/usb_function_switch 2
     setprop sys.usb.state ${sys.usb.config}
 
-# adb only USB configuration
-# This is the fallback configuration if the
-# USB manager fails to set a standard configuration
 on property:sys.usb.config=adb
     stop adbd
     write /sys/class/android_usb/android0/enable 0
@@ -67,7 +60,7 @@ on property:sys.usb.config=mass_storage,adb
     stop adbd
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 0bb4
-    write /sys/class/android_usb/android0/idProduct 0c02
+    write /sys/class/android_usb/android0/idProduct 0f86
     write /sys/class/android_usb/android0/functions mass_storage,adb
     write /sys/class/android_usb/android0/enable 1
     start adbd
@@ -89,6 +82,10 @@ service chargeled /sbin/chargeled
     disabled
     seclabel u:r:healthd:s0
 
+service choice_fn /sbin/choice_fn
+    oneshot
+    seclabel u:r:recovery:s0
+
 service detect_key /sbin/detect_key
     disabled
     seclabel u:r:healthd:s0
@@ -97,3 +94,8 @@ service detect_key /sbin/detect_key
 service offmode_charging /sbin/offmode_charging
     disabled
     seclabel u:r:healthd:s0
+
+service power_test /sbin/power_test
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
